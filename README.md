@@ -1,0 +1,1 @@
+# Edge-Based-Speech-Transcription-and-Synthesis
