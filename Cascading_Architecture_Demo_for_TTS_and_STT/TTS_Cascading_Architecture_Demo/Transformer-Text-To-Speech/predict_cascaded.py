@@ -142,14 +142,11 @@ def inference_fn(model, data_loader, device):
             print("mel_spect[:, :-1]:",mel_spect[:, :-1].shape)
             text_idx = data['text_idx'].to(device)
             text = data['original_text']
-            mel_mask = data['mel_mask'].to(device)
-            # print("mel_mask.shape:",mel_mask)
+            mel_mask = data['mel_mask'].to(device) 
             # On edge device
             encoder_embed, decoder_embed = model(text_idx, mel_spect[:, :-1], mel_mask[:, :-1], get_embeddings = True)
             # On server
-            mel_spect_post_pred, mel_spect_pred, end_logits_pred = inference_fn_cloud(encoder_embed, decoder_embed)
-            # mel_spect_post_pred, mel_spect_pred, end_logits_pred = model(None, None, None, is_from_edge = True, 
-            #                                                             x_embed = encoder_embed, y_embed = decoder_embed)
+            mel_spect_post_pred, mel_spect_pred, end_logits_pred = inference_fn_cloud(encoder_embed, decoder_embed) 
 
             initial_overhead_length = mel_spect.shape[1]
             payload_length = (config.sample_rate//200) * 3 # 3-second(s) long output
@@ -166,17 +163,13 @@ def inference_fn(model, data_loader, device):
                 # On edge device
                 encoder_embed, decoder_embed = model(text_idx,mel_spect[:,:(initial_overhead_length+_),:],mel_mask[:,:(initial_overhead_length+_)], get_embeddings = True)
                 # On server
-                mel_spect_post_pred, mel_spect_pred, end_logits_pred = inference_fn_cloud(encoder_embed, decoder_embed)
-                # mel_spect_post_pred, mel_spect_pred, end_logits_pred = model(None, None, None, is_from_edge = True, 
-                #                                                         x_embed = encoder_embed, y_embed = decoder_embed)
+                mel_spect_post_pred, mel_spect_pred, end_logits_pred = inference_fn_cloud(encoder_embed, decoder_embed) 
               else:
                 # On edge device
                 encoder_embed, decoder_embed = model(text_idx, mel_spect[:,(initial_overhead_length+_+(-1024)):(initial_overhead_length+_),:], 
                                                                                            mel_mask[:,(initial_overhead_length+_+(-1024)):(initial_overhead_length+_)], get_embeddings = True)
                 # On server 
-                mel_spect_post_pred, mel_spect_pred, end_logits_pred = inference_fn_cloud(encoder_embed, decoder_embed)
-                # mel_spect_post_pred, mel_spect_pred, end_logits_pred = model(None, None, None, is_from_edge = True, 
-                #                                                         x_embed = encoder_embed, y_embed = decoder_embed)
+                mel_spect_post_pred, mel_spect_pred, end_logits_pred = inference_fn_cloud(encoder_embed, decoder_embed) 
     print("mel_spect.shape:",mel_spect.shape)
     audio_signal = librosa.feature.inverse.mel_to_audio(
     mel_spect[0].T.cpu().numpy(),

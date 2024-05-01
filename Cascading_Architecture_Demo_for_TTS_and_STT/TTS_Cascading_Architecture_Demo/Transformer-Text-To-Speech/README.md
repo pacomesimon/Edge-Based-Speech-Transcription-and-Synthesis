@@ -7,4 +7,5 @@
   <img src="https://github.com/ShivamRajSharma/Transformer-Text-To-Speech/blob/main/Transformer_tts_model/model.png" height="400" width="400"/>
 
 #### Text are sent as input and the model outputs a Mel-Spectrogram.
+#### Griffin-Lim algorithm is used to get audio from the Mel-spectrogram. 
 
