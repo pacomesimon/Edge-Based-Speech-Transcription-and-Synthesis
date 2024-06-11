@@ -1,6 +1,10 @@
 from flask import Flask, request
 from transformers import WhisperForConditionalGeneration
 import torch
+import os
+port = os.getenv('PORT')
+if port is None:
+    port = 5000
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 whisper_model_server = WhisperForConditionalGeneration.from_pretrained("NMutangana/whisper-small-rw").to(device)
 torch.set_printoptions(threshold=torch.inf)
@@ -67,5 +71,7 @@ def encode_decoder_output():
     print("model_output:",type(model_output))
     return repr(model_output), 200
 
-app.run()
+app.run(
+    port=port
+)
     
