@@ -69,6 +69,7 @@ def encode_decoder_output():
     return repr(model_output), 200
 
 app.run(
+    host='0.0.0.0',
     port = int(os.environ.get("PORT", 5000))
 )
     
