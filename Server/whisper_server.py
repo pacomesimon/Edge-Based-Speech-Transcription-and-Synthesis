@@ -1,11 +1,11 @@
 from flask import Flask, request
-# from transformers import WhisperForConditionalGeneration
-# import torch
+from transformers import WhisperForConditionalGeneration
+import torch
 import os
-# device = "cuda:0" if torch.cuda.is_available() else "cpu"
-# whisper_model_server = WhisperForConditionalGeneration.from_pretrained("NMutangana/whisper-small-rw").to(device)
-# torch.set_printoptions(threshold=torch.inf)
-# tensor = torch.tensor
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
+whisper_model_server = WhisperForConditionalGeneration.from_pretrained("NMutangana/whisper-small-rw").to(device)
+torch.set_printoptions(threshold=torch.inf)
+tensor = torch.tensor
 app = Flask(__name__)
 print("The port is:", int(os.environ.get("PORT", 5000)))
 @app.route('/')
